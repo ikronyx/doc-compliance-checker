@@ -1,7 +1,7 @@
 
 import openai
 
-openai.api_key = "YOUR_API_KEY"  # Replace with secure key management
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 def check_compliance(text, checklist):
     results = []

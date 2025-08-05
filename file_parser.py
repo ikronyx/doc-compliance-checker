@@ -1,8 +1,7 @@
-
 import pdfplumber
 import docx
 import pandas as pd
-import msg_parser
+import extract_msg
 import os
 
 def extract_text(file):
@@ -18,11 +17,11 @@ def extract_text(file):
 
     elif ext == ".xlsx":
         dfs = pd.read_excel(file, sheet_name=None)
-        return "\n".join([df.to_string() for df in dfs.values()])
+        return "\n\n".join([df.to_string() for df in dfs.values()])
 
-    elif ext in [".msg", ".eml"]:
-        parsed = msg_parser.MsgParser().parse_from_file(file)
-        return parsed.body
+    elif ext == ".msg":
+        msg = extract_msg.Message(file)
+        return f"Subject: {msg.subject}\n\nBody:\n{msg.body}"
 
     else:
         return "Unsupported file type."
